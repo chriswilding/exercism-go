@@ -10,14 +10,13 @@ func CollatzConjecture(n int) (int, error) {
 		return steps, errors.New("n must not be zero or negative")
 	}
 
-	for n != 1 {
+	for ; n != 1; steps++ {
 		if n%2 == 0 {
-			n = n / 2
+			n /= 2
 
 		} else {
 			n = n*3 + 1
 		}
-		steps++
 	}
 	return steps, nil
 }
