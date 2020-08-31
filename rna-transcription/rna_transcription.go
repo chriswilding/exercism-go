@@ -10,10 +10,10 @@ var mapping = map[rune]rune{
 }
 
 func ToRNA(dna string) string {
-	var b strings.Builder
+	var rna strings.Builder
 	for _, base := range dna {
 		compliment := mapping[base]
-		b.WriteRune(compliment)
+		rna.WriteRune(compliment)
 	}
-	return b.String()
+	return rna.String()
 }
