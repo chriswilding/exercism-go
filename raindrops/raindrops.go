@@ -2,25 +2,24 @@ package raindrops
 
 import (
 	"strconv"
-	"strings"
 )
 
 // Convert converts a number into a string containing raindrop sounds
 func Convert(n int) string {
-	var b strings.Builder
+	var output string
 
 	if n%3 == 0 {
-		b.WriteString("Pling")
+		output += "Pling"
 	}
 	if n%5 == 0 {
-		b.WriteString("Plang")
+		output += "Plang"
 	}
 	if n%7 == 0 {
-		b.WriteString("Plong")
+		output += "Plong"
 	}
 
-	if b.Len() > 0 {
-		return b.String()
+	if len(output) > 0 {
+		return output
 	}
 	return strconv.Itoa(n)
 }
