@@ -30,13 +30,10 @@ func ToRomanNumeral(arabic int) (string, error) {
 
 	var roman string
 
-	for arabic > 0 {
-		for _, atr := range arabicToRoman {
-			if arabic >= atr.arabic {
-				arabic -= atr.arabic
-				roman += atr.roman
-				break
-			}
+	for _, atr := range arabicToRoman {
+		for arabic >= atr.arabic {
+			arabic -= atr.arabic
+			roman += atr.roman
 		}
 	}
 
