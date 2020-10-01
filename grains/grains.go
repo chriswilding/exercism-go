@@ -1,6 +1,9 @@
 package grains
 
-import "errors"
+import (
+	"errors"
+	"math"
+)
 
 func Square(n int) (uint64, error) {
 	if n < 1 || n > 64 {
@@ -11,12 +14,5 @@ func Square(n int) (uint64, error) {
 }
 
 func Total() uint64 {
-	var sum uint64
-
-	for i := 1; i <= 64; i++ {
-		result, _ := Square(i)
-		sum += result
-	}
-
-	return sum
+	return math.MaxUint64
 }
