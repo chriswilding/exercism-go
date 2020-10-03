@@ -23,12 +23,12 @@ func Classify(n int64) (Classification, error) {
 			sum += i
 		}
 	}
-	if sum == n {
+	switch {
+	case sum == n:
 		return ClassificationPerfect, nil
-	}
-	if sum > n {
+	case sum > n:
 		return ClassificationAbundant, nil
+	default:
+		return ClassificationDeficient, nil
 	}
-	return ClassificationDeficient, nil
-
 }
