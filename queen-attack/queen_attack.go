@@ -8,31 +8,21 @@ import (
 var InvalidRankOrFile = errors.New("invalid rank or file")
 
 func CanQueenAttack(white, black string) (bool, error) {
-	if white == black || len(white) != 2 || len(black) != 2 {
+	if white == black || !valid(white) || !valid(black) {
 		return false, InvalidRankOrFile
 	}
 
-	wr, wf := queenToRankAndFile(white)
-	br, bf := queenToRankAndFile(black)
-
-	if !validRankOrFile(wf) || !validRankOrFile(wr) || !validRankOrFile(bf) || !validRankOrFile(br) {
-		return false, InvalidRankOrFile
-	}
-
-	if wf == bf || wr == br {
+	if white[0] == black[0] || white[1] == black[1] {
 		return true, nil
 	}
 
-	cqa := math.Abs(float64(wf-bf)) == math.Abs(float64(wr-br))
+	file := float64(int(white[0]) - int(black[0]))
+	rank := float64(int(white[1]) - int(black[1]))
+
+	cqa := math.Abs(file) == math.Abs(rank)
 	return cqa, nil
 }
 
-func queenToRankAndFile(queen string) (int, int) {
-	file := int(queen[0] - 96) // convert a to h to an integer
-	rank := int(queen[1] - 48) // convert 1 to 9 to an integer
-	return rank, file
-}
-
-func validRankOrFile(rOrF int) bool {
-	return 0 < rOrF && rOrF < 9
+func valid(queen string) bool {
+	return len(queen) == 2 && queen[0] >= 'a' && queen[0] <= 'h' && queen[1] >= '1' && queen[1] <= '8'
 }
