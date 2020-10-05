@@ -16,9 +16,8 @@ func CanQueenAttack(white, black string) (bool, error) {
 		return true, nil
 	}
 
-	file := float64(int(white[0]) - int(black[0]))
-	rank := float64(int(white[1]) - int(black[1]))
-
+	file := float64(white[0]) - float64(black[0])
+	rank := float64(white[1]) - float64(black[1])
 	cqa := math.Abs(file) == math.Abs(rank)
 	return cqa, nil
 }
