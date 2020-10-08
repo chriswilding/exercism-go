@@ -1,28 +1,7 @@
 package allergies
 
-const (
-	eggs uint = 1 << iota
-	peanuts
-	shellfish
-	strawberries
-	tomatoes
-	chocolate
-	pollen
-	cats
-)
-
-var substanceToEnum = map[string]uint{
-	"eggs":         eggs,
-	"peanuts":      peanuts,
-	"shellfish":    shellfish,
-	"strawberries": strawberries,
-	"tomatoes":     tomatoes,
-	"chocolate":    chocolate,
-	"pollen":       pollen,
-	"cats":         cats,
-}
-
-var substances = [...]string{"eggs",
+var substances = [...]string{
+	"eggs",
 	"peanuts",
 	"shellfish",
 	"strawberries",
@@ -30,6 +9,28 @@ var substances = [...]string{"eggs",
 	"chocolate",
 	"pollen",
 	"cats",
+}
+
+func substanceToValue(substance string) uint {
+	switch substance {
+	case "eggs":
+		return 1
+	case "peanuts":
+		return 2
+	case "shellfish":
+		return 4
+	case "strawberries":
+		return 8
+	case "tomatoes":
+		return 16
+	case "chocolate":
+		return 32
+	case "pollen":
+		return 64
+	case "cats":
+		return 128
+	}
+	panic("unreachable")
 }
 
 func Allergies(score uint) []string {
@@ -43,6 +44,6 @@ func Allergies(score uint) []string {
 }
 
 func AllergicTo(score uint, substance string) bool {
-	enum, _ := substanceToEnum[substance]
-	return score&enum > 0
+	value := substanceToValue(substance)
+	return score&value > 0
 }
