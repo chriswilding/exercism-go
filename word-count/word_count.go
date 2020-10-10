@@ -1,20 +1,31 @@
 package wordcount
 
 import (
-	"regexp"
 	"strings"
+	"unicode"
 )
-
-var find = regexp.MustCompile("\\b[a-zA-Z0-9]+[a-zA-Z0-9']*\\b")
 
 type Frequency map[string]int
 
 func WordCount(phrase string) Frequency {
+	lower := strings.ToLower(phrase)
+	matches := strings.FieldsFunc(lower, f)
 	result := make(Frequency)
-	matches := find.FindAllString(phrase, -1)
 	for _, match := range matches {
-		lower := strings.ToLower(match)
-		result[lower]++
+		trimmed := strings.Trim(match, "'")
+		result[trimmed]++
 	}
 	return result
+}
+
+func f(r rune) bool {
+	switch {
+	case unicode.IsDigit(r):
+		return false
+	case unicode.IsLetter(r):
+		return false
+	case r == '\'':
+		return false
+	}
+	return true
 }
