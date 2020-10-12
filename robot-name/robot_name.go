@@ -1,42 +1,45 @@
 package robotname
 
-import "math/rand"
+import (
+	"errors"
+	"fmt"
+)
 
-var names map[string]struct{}
+var a rune = 'A'
+var b rune = 'A'
+var n int = -1
 
 type Robot struct {
 	name string
 }
 
-func generate() string {
-	var runes [5]rune
-	runes[0] = rune(65 + rand.Intn(26))
-	runes[1] = rune(65 + rand.Intn(26))
-	runes[2] = rune(48 + rand.Intn(9))
-	runes[3] = rune(48 + rand.Intn(9))
-	runes[4] = rune(48 + rand.Intn(9))
-	return string(runes[:])
-}
+var RobotNamesExhausted = errors.New("robot names exhausted")
 
-func newName() string {
-	if names == nil {
-		names = make(map[string]struct{})
+func next() (string, error) {
+	if a == 'Z' && b == 'Z' && n == 999 {
+		return "", RobotNamesExhausted
 	}
-	for {
-		name := generate()
-		_, seen := names[name]
-		if !seen {
-			names[name] = struct{}{}
-			return name
-		}
+	if b == 'Z' && n == 999 {
+		a++
+		b = 'A'
+		n = -1
 	}
+	if n == 999 {
+		b++
+		n = -1
+	}
+	n++
+	return fmt.Sprintf("%c%c%03d", a, b, n), nil
 }
 
 func (r *Robot) Name() (string, error) {
-	if r.name == "" {
-		r.name = newName()
+	if r.name != "" {
+		return r.name, nil
 	}
-	return r.name, nil
+	name, error := next()
+	r.name = name
+	return r.name, error
+
 }
 
 func (r *Robot) Reset() {
