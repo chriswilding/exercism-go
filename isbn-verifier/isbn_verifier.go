@@ -7,12 +7,15 @@ func IsValidISBN(isbn string) bool {
 	var sum int
 	for _, r := range isbn {
 		if n == 1 && r == 'X' {
-			sum += n * 10
+			sum += 10
 			n--
 		}
 		if unicode.IsDigit(r) {
 			sum += n * int(r-'0')
 			n--
+		}
+		if n < 0 {
+			return false
 		}
 	}
 	return n == 0 && sum%11 == 0
