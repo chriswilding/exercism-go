@@ -8,6 +8,11 @@ import (
 	"unicode"
 )
 
+var longestVerseLen = 129
+
+var InvalidVerse = errors.New("invalid verse")
+var InvalidVerseRange = errors.New("to must be equal to of greater than from")
+
 func action(verse int) string {
 	switch verse {
 	case 1:
@@ -52,10 +57,11 @@ func capitalise(s string) string {
 
 func Verse(verse int) (string, error) {
 	if verse < 0 || verse > 100 {
-		return "", errors.New("invalid verse")
+		return "", InvalidVerse
 	}
 	bns := toString(verse)
 	var b strings.Builder
+	b.Grow(longestVerseLen)
 	b.WriteString(capitalise(bns))
 	b.WriteString(" of beer on the wall, ")
 	b.WriteString(bns)
@@ -70,9 +76,11 @@ func Verse(verse int) (string, error) {
 
 func Verses(from, to int) (string, error) {
 	if to > from {
-		return "", errors.New("to must be equal to of greater than from")
+		return "", InvalidVerseRange
 	}
 	var b strings.Builder
+	b.Grow((from - to) * longestVerseLen)
+
 	for i := from; i >= to; i-- {
 		v, e := Verse(i)
 		if e != nil {
