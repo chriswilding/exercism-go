@@ -1,24 +1,21 @@
 package rotationalcipher
 
 import (
-	"bytes"
 	"unicode"
 )
 
 func RotationalCipher(plain string, shiftKey int) string {
-	var b bytes.Buffer
+	output := []rune(plain)
 
-	for _, r := range plain {
+	for i, r := range output {
 		if unicode.IsLower(r) {
-			b.WriteRune(rotate(r, shiftKey, 'z'))
+			output[i] = rotate(r, shiftKey, 'z')
 		} else if unicode.IsUpper(r) {
-			b.WriteRune(rotate(r, shiftKey, 'Z'))
-		} else {
-			b.WriteRune(r)
+			output[i] = rotate(r, shiftKey, 'Z')
 		}
 	}
 
-	return b.String()
+	return string(output)
 }
 
 func rotate(r rune, shiftKey int, limit rune) rune {
